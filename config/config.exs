@@ -59,6 +59,17 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Tesla HTTP client
+config :tesla, adapter: Tesla.Adapter.Hackney
+
+config :ten_ex_take_home,
+  marvel_client_module: TenExTakeHome.External.Marvel.HTTP,
+  marvel_tesla_adapter: Tesla.Adapter.Hackney
+
+config :ten_ex_take_home,
+  marvel_public_key: System.get_env("MARVEL_PUBLIC_KEY"),
+  marvel_private_key: System.get_env("MARVEL_PRIVATE_KEY")
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
