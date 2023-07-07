@@ -17,7 +17,9 @@ defmodule TenExTakeHome.Application do
       # Start Finch
       {Finch, name: TenExTakeHome.Finch},
       # Start the Endpoint (http/https)
-      TenExTakeHomeWeb.Endpoint
+      TenExTakeHomeWeb.Endpoint,
+      # Supervisor for cache marvel api data
+      TenExTakeHome.MarvelCacheSupervisor
       # Start a worker by calling: TenExTakeHome.Worker.start_link(arg)
       # {TenExTakeHome.Worker, arg}
     ]

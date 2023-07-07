@@ -26,7 +26,7 @@ defmodule TenExTakeHome.External.Marvel.HTTP do
     ])
   end)
 
-  @impl Marvel
+  @impl true
   def get_characters() do
     case get(url(), headers: headers()) do
       {:ok, %Tesla.Env{status: 200, body: %{"data" => data}}} ->
@@ -76,8 +76,8 @@ defmodule TenExTakeHome.External.Marvel.HTTP do
       :md5 |> :crypto.hash("#{ts}#{private_key()}#{public_key()}") |> Base.encode16(case: :lower)
 
     authenticated_params =
-      "?ts=#{ts}&apikey=#{public_key}&hash=#{hash}&limit=#{@request_data_limit}"
+      "?ts=#{ts}&apikey=#{public_key()}&hash=#{hash}&limit=#{@request_data_limit}"
 
-    url = "#{@base_url}#{authenticated_params}"
+    "#{@base_url}#{authenticated_params}"
   end
 end
