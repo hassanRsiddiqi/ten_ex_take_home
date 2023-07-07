@@ -15,7 +15,10 @@ defmodule TenExTakeHome.MarvelTest do
 
   describe "get characters" do
     test "successful response from API" do
+      # given
       expect_marvel_called(:success)
+
+      # then
       assert {:ok, data} = Marvel.get_characters()
 
       assert data["count"] == 1

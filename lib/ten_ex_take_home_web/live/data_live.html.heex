@@ -1,0 +1,18 @@
+<div class="character_liveview">
+  <h2>Characters Table</h2>
+
+  <table>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Resource URI</th>
+    </tr>
+    <%= for character <- @characters["results"] do %>
+      <tr>
+        <td><%= character["id"] %></td>
+        <td><%= character["name"] %></td>
+        <td><%= character["resourceURI"] %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>

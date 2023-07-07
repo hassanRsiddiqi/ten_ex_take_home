@@ -137,6 +137,13 @@ defmodule TenExTakeHome.Test.Support.Mocks.Marvel do
     end)
   end
 
+  @spec expect_marvel_called(:authorization_error, integer) :: {:error, :authorization_error}
+  def expect_marvel_called_outside(:authorization_error, n \\ 1) do
+    expect(MarvelMock, :get_characters, n, fn ->
+      {:error, :authorization_error}
+    end)
+  end
+
   defp success_data() do
     %{
       "count" => 1,

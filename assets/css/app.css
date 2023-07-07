@@ -3,3 +3,24 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+.character_liveview h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.character_liveview table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  padding-top: 30px; 
+}
+
+.character_liveview td, .character_liveview th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.character_liveview tr:nth-child(even) {
+  background-color: #dddddd;
+}
