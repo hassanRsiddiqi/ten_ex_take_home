@@ -28,6 +28,21 @@ defmodule TenExTakeHome.MarvelTest do
       assert data["results"] == result_response()
     end
 
+    test "pagination response from API" do
+      # given
+      params = %{limit: 10, offset: 20}
+      expect_marvel_called(:pagination, params)
+
+      # then
+      assert {:ok, data} = Marvel.get_characters(params)
+
+      assert data["count"] == 1
+      assert data["limit"] == 10
+      assert data["offset"] == 20
+      assert data["total"] == 1562
+      assert data["results"] == result_response()
+    end
+
     test "error when no credentials are provided" do
       expect_marvel_called(:authorization_error)
       assert {:error, :authorization_error} = Marvel.get_characters()

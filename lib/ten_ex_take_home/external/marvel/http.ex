@@ -8,7 +8,6 @@ defmodule TenExTakeHome.External.Marvel.HTTP do
   require Logger
 
   @base_url "http://gateway.marvel.com/v1/public/characters"
-  @request_data_limit 10
 
   plug Tesla.Middleware.JSON
   plug Tesla.Middleware.BaseUrl, @base_url
@@ -18,6 +17,7 @@ defmodule TenExTakeHome.External.Marvel.HTTP do
   defp public_key(), do: Application.fetch_env!(:ten_ex_take_home, :marvel_public_key)
   defp private_key(), do: Application.fetch_env!(:ten_ex_take_home, :marvel_private_key)
   defp tesla_adapter(), do: Application.fetch_env!(:ten_ex_take_home, :marvel_tesla_adapter)
+  defp default_pagination_limit(), do: Application.fetch_env!(:ten_ex_take_home, :default_pagination_limit)
 
   adapter(fn env ->
     apply(tesla_adapter(), :call, [
@@ -27,8 +27,8 @@ defmodule TenExTakeHome.External.Marvel.HTTP do
   end)
 
   @impl true
-  def get_characters() do
-    case get(url(), headers: headers()) do
+  def get_characters(params) do
+    case get(url(params), headers: headers()) do
       {:ok, %Tesla.Env{status: 200, body: %{"data" => data}}} ->
         {:ok, data}
 
@@ -69,14 +69,18 @@ defmodule TenExTakeHome.External.Marvel.HTTP do
     ]
   end
 
-  defp url() do
+  defp url(params) do
+    limit = Map.get(params, :limit, default_pagination_limit())
+    offset = Map.get(params, :offset, 0)
+
     ts = :second |> System.system_time() |> Integer.to_string()
 
-    hash =
-      :md5 |> :crypto.hash("#{ts}#{private_key()}#{public_key()}") |> Base.encode16(case: :lower)
+    hash = :md5
+      |> :crypto.hash("#{ts}#{private_key()}#{public_key()}")
+      |> Base.encode16(case: :lower)
 
     authenticated_params =
-      "?ts=#{ts}&apikey=#{public_key()}&hash=#{hash}&limit=#{@request_data_limit}"
+      "?ts=#{ts}&apikey=#{public_key()}&hash=#{hash}&limit=#{limit}&offset=#{offset}"
 
     "#{@base_url}#{authenticated_params}"
   end

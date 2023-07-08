@@ -23,13 +23,13 @@ defmodule TenExTakeHome.External.Marvel do
   @doc """
   List the characters from Marvel API
   """
-  @callback get_characters() ::
+  @callback get_characters(map()) ::
               {:ok, marvel_result()} | {:error, marvel_error()}
 
   @doc """
   Performs characters search against Marvel API.
   """
-  def get_characters(), do: client_module().get_characters()
+  def get_characters(params \\ %{}), do: client_module().get_characters(params)
 
   # private methods
   defp client_module(), do: Application.get_env(:ten_ex_take_home, :marvel_client_module)

@@ -4,14 +4,25 @@ defmodule TenExTakeHome.Test.Support.Mocks.Marvel do
 
   @spec expect_marvel_called(:success, integer) :: {:ok, %{}}
   def expect_marvel_called(:success, n) do
-    expect(MarvelMock, :get_characters, n, fn ->
+    expect(MarvelMock, :get_characters, n, fn _opts ->
       {:ok, success_data()}
+    end)
+  end
+
+  @spec expect_marvel_called(:pagination, map(), integer()) :: {:ok, %{}}
+  def expect_marvel_called(:pagination, params, n \\ 1) do
+    expect(MarvelMock, :get_characters, n, fn opts ->
+
+      assert params.limit == opts.limit
+      assert params.offset == opts.offset
+
+      {:ok, %{success_data() | "limit" => opts.limit, "offset" => opts.offset}}
     end)
   end
 
   @spec expect_marvel_called(:success) :: {:ok, %{}}
   def expect_marvel_called(:success) do
-    expect(MarvelMock, :get_characters, fn ->
+    expect(MarvelMock, :get_characters, fn _opts ->
       {:ok, success_data()}
     end)
   end
@@ -139,7 +150,7 @@ defmodule TenExTakeHome.Test.Support.Mocks.Marvel do
 
   @spec expect_marvel_called(:authorization_error, integer) :: {:error, :authorization_error}
   def expect_marvel_called_outside(:authorization_error, n \\ 1) do
-    expect(MarvelMock, :get_characters, n, fn ->
+    expect(MarvelMock, :get_characters, n, fn _opts ->
       {:error, :authorization_error}
     end)
   end

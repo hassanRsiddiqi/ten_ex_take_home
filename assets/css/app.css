@@ -8,6 +8,16 @@
   font-weight: 600;
 }
 
+.character_liveview button {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+
+.character_liveview button#next{
+  float: right
+}
+
 .character_liveview table {
   font-family: arial, sans-serif;
   border-collapse: collapse;

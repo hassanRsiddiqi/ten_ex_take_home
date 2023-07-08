@@ -10,12 +10,12 @@ defmodule TenExTakeHomeWeb.DataLiveTest do
 
   describe "display characters" do
     test "displays the correct template and data", %{conn: conn} do
-      expect_marvel_called(:success, 1)
+      expect_marvel_called(:success, 2)
 
       conn = get(conn, "/data")
       assert html_response(conn, 200) =~ "<h2>Characters Table</h2>"
 
-      {:ok, view, html} = live(conn)
+      {:ok, _view, html} = live(conn)
       assert html =~ "Characters Table"
       assert html =~ "<th>Name</th>"
       assert html =~ "<th>Id</th>"

@@ -68,7 +68,8 @@ config :ten_ex_take_home,
 
 config :ten_ex_take_home,
   marvel_public_key: System.get_env("MARVEL_PUBLIC_KEY"),
-  marvel_private_key: System.get_env("MARVEL_PRIVATE_KEY")
+  marvel_private_key: System.get_env("MARVEL_PRIVATE_KEY"),
+  default_pagination_limit: 10
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
