@@ -6,7 +6,6 @@ defmodule TenExTakeHomeWeb.DataLiveTest do
   setup :verify_on_exit!
   setup :set_mox_from_context
 
-  alias TenExTakeHome.External.Marvel
   import TenExTakeHome.Test.Support.Mocks.Marvel
 
   describe "display characters" do
@@ -25,6 +24,5 @@ defmodule TenExTakeHomeWeb.DataLiveTest do
       assert html =~ "<td>3-D Man</td>"
       assert html =~ "<td>http://gateway.marvel.com/v1/public/characters/1011334</td>"
     end
-
   end
 end

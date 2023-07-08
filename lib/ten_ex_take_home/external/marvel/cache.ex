@@ -9,6 +9,7 @@ defmodule TenExTakeHome.External.Marvel.Cache do
 
   require Logger
   alias TenExTakeHome.External.Marvel
+  alias TenExTakeHome.Stats
 
   @spec get_characters(pid() | String.t()) :: {:ok, map()} | {:error, atom()} | {:errpr, map()}
   def get_characters(server \\ __MODULE__) do
@@ -42,7 +43,9 @@ defmodule TenExTakeHome.External.Marvel.Cache do
 
   defp request_data() do
     response = Marvel.get_characters()
-    # TODO: call db function here to count stats
+
+    # create stats
+    insert_stats(response)
 
     case response do
       {:ok, _characters} ->
@@ -53,5 +56,13 @@ defmodule TenExTakeHome.External.Marvel.Cache do
     end
 
     {:reply, response, response}
+  end
+
+  defp insert_stats({:ok, _characters}) do
+    Stats.create(%{status: "success"})
+  end
+
+  defp insert_stats({:error, _error}) do
+    Stats.create(%{status: "error"})
   end
 end
