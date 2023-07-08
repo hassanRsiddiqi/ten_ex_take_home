@@ -4,9 +4,6 @@ defmodule TenExTakeHomeWeb.DataLive do
   """
   use TenExTakeHomeWeb, :live_view
   alias TenExTakeHome.External.Marvel.Cache
-  alias TenExTakeHome.External.Marvel
-
-  @pagination_limit 10
 
   def mount(_params, _session, socket) do
     {:ok, assign(socket, limit: 10, offset: 0)}
@@ -41,5 +38,6 @@ defmodule TenExTakeHomeWeb.DataLive do
     end
   end
 
-  defp default_pagination_limit(), do: Application.fetch_env!(:ten_ex_take_home, :default_pagination_limit)
+  defp default_pagination_limit(),
+    do: Application.fetch_env!(:ten_ex_take_home, :default_pagination_limit)
 end

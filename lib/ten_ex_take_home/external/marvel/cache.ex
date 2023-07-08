@@ -11,7 +11,8 @@ defmodule TenExTakeHome.External.Marvel.Cache do
   alias TenExTakeHome.External.Marvel
   alias TenExTakeHome.Stats
 
-  defp default_pagination_limit(), do: Application.fetch_env!(:ten_ex_take_home, :default_pagination_limit)
+  defp default_pagination_limit(),
+    do: Application.fetch_env!(:ten_ex_take_home, :default_pagination_limit)
 
   @spec get_characters(pid() | String.t()) :: {:ok, map()} | {:error, atom()} | {:errpr, map()}
   def get_characters(params \\ %{}, server \\ __MODULE__) do
@@ -39,9 +40,11 @@ defmodule TenExTakeHome.External.Marvel.Cache do
 
   def handle_call({:get, params}, _from, %{characters: %{}} = state) do
     Logger.info("No data found. Fetching data from the Marvel API.")
+
     case call_client(params) do
       {:ok, characters} = response ->
         {:reply, response, %{characters: [characters]}}
+
       {:error, _error} = response ->
         {:reply, response, state}
     end
@@ -72,7 +75,6 @@ defmodule TenExTakeHome.External.Marvel.Cache do
       data ->
         {:cache, data}
     end
-
   end
 
   defp call_client(params) do

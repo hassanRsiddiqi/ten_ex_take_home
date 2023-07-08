@@ -17,7 +17,9 @@ defmodule TenExTakeHome.External.Marvel.HTTP do
   defp public_key(), do: Application.fetch_env!(:ten_ex_take_home, :marvel_public_key)
   defp private_key(), do: Application.fetch_env!(:ten_ex_take_home, :marvel_private_key)
   defp tesla_adapter(), do: Application.fetch_env!(:ten_ex_take_home, :marvel_tesla_adapter)
-  defp default_pagination_limit(), do: Application.fetch_env!(:ten_ex_take_home, :default_pagination_limit)
+
+  defp default_pagination_limit(),
+    do: Application.fetch_env!(:ten_ex_take_home, :default_pagination_limit)
 
   adapter(fn env ->
     apply(tesla_adapter(), :call, [
@@ -75,7 +77,8 @@ defmodule TenExTakeHome.External.Marvel.HTTP do
 
     ts = :second |> System.system_time() |> Integer.to_string()
 
-    hash = :md5
+    hash =
+      :md5
       |> :crypto.hash("#{ts}#{private_key()}#{public_key()}")
       |> Base.encode16(case: :lower)
 

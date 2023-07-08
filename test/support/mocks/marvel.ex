@@ -12,7 +12,6 @@ defmodule TenExTakeHome.Test.Support.Mocks.Marvel do
   @spec expect_marvel_called(:pagination, map(), integer()) :: {:ok, %{}}
   def expect_marvel_called(:pagination, params, n \\ 1) do
     expect(MarvelMock, :get_characters, n, fn opts ->
-
       assert params.limit == opts.limit
       assert params.offset == opts.offset
 
